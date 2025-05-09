@@ -20,6 +20,12 @@
           "default": "latest"
         },
         {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Set the timezone for the docker containers, useful for correct timestamps on logs (default Europe/London)\nFormatted as tz database names. Example: Europe/Oslo or America/Los_Angeles",
+          "default": "Europe/London"
+        },
+        {
           "name": "USE_GENERIC_CACHE",
           "label": "Use Generic Cache",
           "description": "Set this to true if you're using a load balancer, or set it to false if you're using separate IPs for each service.\nIf you're using monolithic (the default), leave this set to true",
