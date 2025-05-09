@@ -33,7 +33,7 @@
         },
         {
           "name": "LANCACHE_IP",
-          "label": "lancache.net Bind IP",
+          "label": "lancache.net Bind IPs",
           "description": "IP addresses that the lancache monolithic instance is reachable on\nSpecify one or more IPs, space separated - these will be used when resolving DNS hostnames through lancachenet-dns. Multiple IPs can improve cache priming performance for some services (e.g. Steam)\nNote: This setting only affects DNS, monolithic and sniproxy will still bind to all IPs by default"
         },
         {
@@ -62,8 +62,8 @@
         {
           "name": "MIN_FREE_DISK",
           "label": "Minimum diskspace threshold",
-          "description": "Sets the minimum free disk space that must be kept at all times.\n When the available free space drops below the set amount for any reason, the cache server will begin pruning content to free up space.\nPrevents accidentally running out of disk space if CACHE_DISK_SIZE is set too high.",
-          "default": "2000g"
+          "description": "Sets the minimum free disk space that must be kept at all times (default 10g).\n When the available free space drops below the set amount for any reason, the cache server will begin pruning content to free up space.\nPrevents accidentally running out of disk space if CACHE_DISK_SIZE is set too high.",
+          "default": "10g"
         },
         {
           "name": "CACHE_INDEX_SIZE",
