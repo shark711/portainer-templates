@@ -1,0 +1,47 @@
+version: "3.9"
+x-restart-policy: &restart-policy "always"
+services:
+  dns:
+    image: lancachenet/lancache-dns:latest
+    container_name: lancache-dns
+    restart: *restart-policy
+    ports:
+      - ${DNS_BIND_IP}:53:53/udp
+      - ${DNS_BIND_IP}:53:53/tcp
+    environment:
+      - USE_GENERIC_CACHE=${USE_GENERIC_CACHE}
+      - LANCACHE_IP=${LANCACHE_IP}
+      - UPSTREAM_DNS=${UPSTREAM_DNS}
+      - DNS_BIND_IP=${DNS_BIND_IP}
+      - TZ=${TZ}
+      - CACHE_DOMAINS_REPO=${CACHE_DOMAINS_REPO}
+      - CACHE_DOMAINS_BRANCH=${CACHE_DOMAINS_BRANCH}
+    networks:
+      - bridge
+      
+  monolithic:
+    image: lancachenet/monolithic:latest
+    container_name: lancache
+    restart: *restart-policy
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    volumes:
+      - ${CACHE_ROOT}/cache:/data/cache
+      - ${CACHE_ROOT}/logs:/data/logs
+    environment:
+      - CACHE_DISK_SIZE=${CACHE_DISK_SIZE}
+      - MIN_FREE_DISK=${MIN_FREE_DISK}
+      - CACHE_INDEX_SIZE=${CACHE_INDEX_SIZE}
+      - CACHE_MAX_AGE=${CACHE_MAX_AGE}
+      - CACHE_SLICE_SIZE=${CACHE_SLICE_SIZE}
+      - TZ=${TZ}
+      - CACHE_DOMAINS_REPO=${CACHE_DOMAINS_REPO}
+      - CACHE_DOMAINS_BRANCH=${CACHE_DOMAINS_BRANCH}
+    networks:
+      - bridge
+
+networks:
+  bridge:
+      driver: bridge
+      
