@@ -4,7 +4,7 @@
     {
       "type": 3,
       "title": "lancache.net",
-      "description": "lancache.net as a compose file",
+      "description": "lancache.net as a compose file. Note: This has to run on ports 80/443 be accesible, and 53 for DNS",
       "categories": ["SaaS"],
       "platform": "linux",
       "logo": "https://lancache.net/favicon.png",
