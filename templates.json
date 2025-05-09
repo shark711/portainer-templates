@@ -1,119 +1,125 @@
 {
-  "version": "2",
-  "templates": [
-    {
-      "type": 3,
-      "title": "lancache.net",
-      "description": "lancache.net as a compose file. Note: This has to run on ports 80/443 be accesible, and 53 for DNS",
-      "categories": ["SaaS"],
-      "platform": "linux",
-      "logo": "https://lancache.net/favicon.png",
-      "repository": {
-        "url": "https://github.com/shark711/portainer-templates",
-        "stackfile": "stacks/lancache/docker-compose.yml"
-      },
-      "env": [
+    "version": "2",
+    "templates": [
         {
-          "name": "VERSION",
-          "label": "LANCache version",
-          "description": "Version of lancache.net to use ('latest' if empty)",
-          "default": "latest"
+            "type": 3,
+            "title": "lancache.net",
+            "description": "lancache.net as a compose file. Note: This has to run on ports 80/443 be accesible, and 53 for DNS",
+            "categories": [
+                "SaaS"
+            ],
+            "platform": "linux",
+            "logo": "https://lancache.net/favicon.png",
+            "repository": {
+                "url": "https://github.com/shark711/portainer-templates",
+                "stackfile": "stacks/lancache/docker-compose.yml"
+            },
+            "env": [
+                {
+                    "name": "VERSION",
+                    "label": "LANCache version",
+                    "description": "Version of lancache.net to use ('latest' if empty)",
+                    "default": "latest"
+                },
+                {
+                    "name": "TZ",
+                    "label": "Timezone",
+                    "description": "Set the timezone for the docker containers, useful for correct timestamps on logs (default Europe/London)\nFormatted as tz database names. Example: Europe/Oslo or America/Los_Angeles",
+                    "default": "Europe/London"
+                },
+                {
+                    "name": "USE_GENERIC_CACHE",
+                    "label": "Use Generic Cache",
+                    "description": "Set this to true if you're using a load balancer, or set it to false if you're using separate IPs for each service.\nIf you're using monolithic (the default), leave this set to true",
+                    "default": "true"
+                },
+                {
+                    "name": "LANCACHE_IP",
+                    "label": "lancache.net Bind IPs",
+                    "description": "IP addresses that the lancache monolithic instance is reachable on\nSpecify one or more IPs, space separated - these will be used when resolving DNS hostnames through lancachenet-dns. Multiple IPs can improve cache priming performance for some services (e.g. Steam)\nNote: This setting only affects DNS, monolithic and sniproxy will still bind to all IPs by default"
+                },
+                {
+                    "name": "DNS_BIND_IP",
+                    "label": "DNS Server Bind IP",
+                    "description": "IP address on the host that the DNS server should bind to"
+                },
+                {
+                    "name": "UPSTREAM_DNS",
+                    "label": "Upstream DNS",
+                    "description": "DNS Resolution for forwarded DNS lookups",
+                    "default": "8.8.8.8"
+                },
+                {
+                    "name": "CACHE_ROOT",
+                    "label": "Local storage location",
+                    "description": "Storage path for the cached data",
+                    "default": "/opt/lancache"
+                },
+                {
+                    "name": "CACHE_DISK_SIZE",
+                    "label": "Cache Disk Size",
+                    "description": "Change this to customise the maximum size of the disk cache (default 2000g).\nIf you have more storage, you'll likely want to increase this.\nThe cache server will prune content on a least-recently-used basis if it starts approaching this limit.",
+                    "default": "2000g"
+                },
+                {
+                    "name": "MIN_FREE_DISK",
+                    "label": "Minimum diskspace threshold",
+                    "description": "Sets the minimum free disk space that must be kept at all times (default 10g).\n When the available free space drops below the set amount for any reason, the cache server will begin pruning content to free up space.\nPrevents accidentally running out of disk space if CACHE_DISK_SIZE is set too high.",
+                    "default": "10g"
+                },
+                {
+                    "name": "CACHE_INDEX_SIZE",
+                    "label": "Index Memory Size",
+                    "description": "Change this to allow sufficient index memory for the nginx cache manager (default 500m)\nWe recommend 250m of index memory per 1TB of CACHE_DISK_SIZE",
+                    "default": "500m"
+                },
+                {
+                    "name": "CACHE_MAX_AGE",
+                    "label": "Cache Age Limit",
+                    "description": "Change this to limit the maximum age of cached content (default 3650d)",
+                    "default": "3650d"
+                },
+                {
+                    "name": "CACHE_SLICE_SIZE",
+                    "label": "Cache Slice Size",
+                    "description": "Size of the slices (default 1m). Soime services, like battle.net, perform fast with bigger sizes, like 8m.\nNote, chagning this means you need to rebuild your cache",
+                    "default": "1m"
+                },
+                {
+                    "name": "CACHE_DOMAINS_REPO",
+                    "label": "Cache Domains Repo",
+                    "description": "The github repo url for the cache_domains files to use to populate the cdn maps, if you do not want to use the recommended source for testing purposes.",
+                    "default": "https://github.com/uklans/cache-domains.git"
+                },
+                {
+                    "name": "CACHE_DOMAINS_BRANCH",
+                    "label": "Cache Domains Branch",
+                    "description": "The branch of the CACHE_DOMAINS_REPO to use",
+                    "default": "master"
+                }
+            ]
         },
         {
-          "name": "TZ",
-          "label": "Timezone",
-          "description": "Set the timezone for the docker containers, useful for correct timestamps on logs (default Europe/London)\nFormatted as tz database names. Example: Europe/Oslo or America/Los_Angeles",
-          "default": "Europe/London"
-        },
-        {
-          "name": "USE_GENERIC_CACHE",
-          "label": "Use Generic Cache",
-          "description": "Set this to true if you're using a load balancer, or set it to false if you're using separate IPs for each service.\nIf you're using monolithic (the default), leave this set to true",
-          "default": "true"
-        },
-        {
-          "name": "LANCACHE_IP",
-          "label": "lancache.net Bind IPs",
-          "description": "IP addresses that the lancache monolithic instance is reachable on\nSpecify one or more IPs, space separated - these will be used when resolving DNS hostnames through lancachenet-dns. Multiple IPs can improve cache priming performance for some services (e.g. Steam)\nNote: This setting only affects DNS, monolithic and sniproxy will still bind to all IPs by default"
-        },
-        {
-          "name": "DNS_BIND_IP",
-          "label": "DNS Server Bind IP",
-          "description": "IP address on the host that the DNS server should bind to"
-        },
-        {
-          "name": "UPSTREAM_DNS",
-          "label": "Upstream DNS",
-          "description": "DNS Resolution for forwarded DNS lookups",
-          "default": "8.8.8.8"
-        },
-        {
-          "name": "CACHE_ROOT",
-          "label": "Local storage location",
-          "description": "Storage path for the cached data",
-          "default": "/opt/lancache"
-        },
-        {
-          "name": "CACHE_DISK_SIZE",
-          "label": "Cache Disk Size",
-          "description": "Change this to customise the maximum size of the disk cache (default 2000g).\nIf you have more storage, you'll likely want to increase this.\nThe cache server will prune content on a least-recently-used basis if it starts approaching this limit.",
-          "default": "2000g"
-        },
-        {
-          "name": "MIN_FREE_DISK",
-          "label": "Minimum diskspace threshold",
-          "description": "Sets the minimum free disk space that must be kept at all times (default 10g).\n When the available free space drops below the set amount for any reason, the cache server will begin pruning content to free up space.\nPrevents accidentally running out of disk space if CACHE_DISK_SIZE is set too high.",
-          "default": "10g"
-        },
-        {
-          "name": "CACHE_INDEX_SIZE",
-          "label": "Index Memory Size",
-          "description": "Change this to allow sufficient index memory for the nginx cache manager (default 500m)\nWe recommend 250m of index memory per 1TB of CACHE_DISK_SIZE",
-          "default": "500m"
-        },
-        {
-          "name": "CACHE_MAX_AGE",
-          "label": "Cache Age Limit",
-          "description": "Change this to limit the maximum age of cached content (default 3650d)",
-          "default": "3650d"
-        },
-        {
-          "name": "CACHE_SLICE_SIZE",
-          "label": "Cache Slice Size",
-          "description": "Size of the slices (default 1m). Soime services, like battle.net, perform fast with bigger sizes, like 8m.\nNote, chagning this means you need to rebuild your cache",
-          "default": "1m"
-        },
-        {
-          "name": "CACHE_DOMAINS_REPO",
-          "label": "Cache Domains Repo",
-          "description": "The github repo url for the cache_domains files to use to populate the cdn maps, if you do not want to use the recommended source for testing purposes.",
-          "default": "https://github.com/uklans/cache-domains.git"
-        },
-        {
-          "name": "CACHE_DOMAINS_BRANCH",
-          "label": "Cache Domains Branch",
-          "description": "The branch of the CACHE_DOMAINS_REPO to use",
-          "default": "master"
+            "type": 3,
+            "title": "Pterodactyl",
+            "description": "Pterodactyl is a free, open-source game server management panel",
+            "categories": [
+                "SaaS"
+            ],
+            "platform": "linux",
+            "logo": "https://pterodactyl.io/favicons/apple-touch-icon.png",
+            "repository": {
+                "url": "https://github.com/shark711/portainer-templates",
+                "stackfile": "stacks/pterodactyl/docker-compose.yml"
+            },
+            "env": [
+                {
+                    "name": "VERSION",
+                    "label": "Pterodactyl version",
+                    "description": "Version of Pterodactyl to use ('latest' if empty)",
+                    "default": "latest"
+                }
+            ]
         }
-      ]
-    {
-      "type": 3,
-      "title": "Pterodactyl",
-      "description": "Pterodactyl is a free, open-source game server management panel",
-      "categories": ["SaaS"],
-      "platform": "linux",
-      "logo": "https://pterodactyl.io/favicons/apple-touch-icon.png",
-      "repository": {
-        "url": "https://github.com/shark711/portainer-templates",
-        "stackfile": "stacks/pterodactyl/docker-compose.yml"
-      },
-      "env": [
-        {
-          "name": "VERSION",
-          "label": "Pterodactyl version",
-          "description": "Version of Pterodactyl to use ('latest' if empty)",
-          "default": "latest"
-        }
-    }
-  ]
+    ]
 }
