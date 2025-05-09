@@ -98,28 +98,6 @@
                     "default": "master"
                 }
             ]
-        },
-        {
-            "type": 3,
-            "title": "Pterodactyl",
-            "description": "Pterodactyl is a free, open-source game server management panel",
-            "categories": [
-                "SaaS"
-            ],
-            "platform": "linux",
-            "logo": "https://pterodactyl.io/favicons/apple-touch-icon.png",
-            "repository": {
-                "url": "https://github.com/shark711/portainer-templates",
-                "stackfile": "stacks/pterodactyl/docker-compose.yml"
-            },
-            "env": [
-                {
-                    "name": "VERSION",
-                    "label": "Pterodactyl version",
-                    "description": "Version of Pterodactyl to use ('latest' if empty)",
-                    "default": "latest"
-                }
-            ]
         }
     ]
 }
